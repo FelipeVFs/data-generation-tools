@@ -1,0 +1,44 @@
+CREATE TABLE usuario (
+  matricula INT PRIMARY KEY,
+  nome VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  endereco VARCHAR(255) NOT NULL,
+  telefone VARCHAR(255) NOT NULL,
+  idade INT NOT NULL
+);
+
+
+CREATE TABLE emprestimo (
+  codigo INT PRIMARY KEY,
+  data_emprestimo TIMESTAMP NOT NULL,
+  matricula_usuario INT NOT NULL,
+  data_devolucao TIMESTAMP NOT NULL,
+
+  FOREIGN KEY (matricula_usuario) REFERENCES usuario(matricula) 
+);
+
+CREATE TABLE estante (
+  codigo INT PRIMARY KEY,
+  local VARCHAR(255) NOT NULL,
+  capacidade VARCHAR(255) NOT NULL,
+  categoria VARCHAR(255) NOT NULL
+);
+
+
+CREATE TABLE livro (
+  codigo INT PRIMARY KEY,
+  titulo VARCHAR(255) NOT NULL,
+  autor VARCHAR(255) NOT NULL,
+  codigo_estante INT NOT NULL,
+
+  FOREIGN KEY (codigo_estante) REFERENCES estante(codigo)
+);
+
+CREATE TABLE livro_emprestado (
+  codigo_emprestimo INT NOT NULL,
+  codigo_livro INT NOT NULL,
+
+  PRIMARY KEY (codigo_emprestimo, codigo_livro),
+  FOREIGN KEY (codigo_emprestimo) REFERENCES emprestimo(codigo),
+  FOREIGN KEY (codigo_livro) REFERENCES livro(codigo)
+);

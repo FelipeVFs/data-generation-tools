@@ -1,0 +1,35 @@
+CREATE TABLE usuario (
+	matricula SERIAL PRIMARY KEY,
+	nome VARCHAR NOT NULL,
+	email VARCHAR NOT NULL,
+	endereco VARCHAR NOT NULL,
+	telefone VARCHAR NOT NULL,
+	idade INT NOT NULL
+);
+
+CREATE TABLE emprestimo (
+	codigo SERIAL PRIMARY KEY,
+	data_emprestimo TIMESTAMP NOT NULL,
+	matricula_usuario INT REFERENCES usuario(matricula) NOT NULL,
+	data_devolucao TIMESTAMP NOT NULL
+);
+
+CREATE TABLE livro (
+	codigo SERIAL PRIMARY KEY,
+	titulo VARCHAR NOT NULL,
+	autor VARCHAR NOT NULL,
+	codigo_estante INT REFERENCES estante(codigo) NOT NULL
+);
+
+CREATE TABLE livro_emprestado (
+	codigo_emprestimo INT REFERENCES emprestimo(codigo) NOT NULL,
+	codigo_livro INT REFERENCES livro(codigo) NOT NULL,
+	PRIMARY KEY (codigo_emprestimo, codigo_livro)
+);
+
+CREATE TABLE estante (
+	codigo SERIAL PRIMARY KEY,
+	local VARCHAR NOT NULL,
+	capacidade VARCHAR NOT NULL,
+	categoria VARCHAR NOT NULL
+);
